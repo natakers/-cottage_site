@@ -89,12 +89,12 @@ module.exports = ({ development }) => {
           test: /\.(woff(2)?|eot|ttf|otf)$/i,
           type: 'asset/resource',
         },
+        // {
+        //   test: /\.css$/i,
+        //   use: [{loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' }}, 'css-loader'],
+        // },
         {
-          test: /\.css$/i,
-          use: [{loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' }}, 'css-loader'],
-        },
-        {
-          test: /\.s[ac]ss$/i,
+          test: /\.(s*)css$/i,
           use: [{loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' }}, 'css-loader', 'sass-loader']
         }
       ],
