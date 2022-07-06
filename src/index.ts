@@ -1,4 +1,5 @@
 import './style.scss';
+import './burger'
 
 const butons = document.querySelectorAll('.step__icon');
 console.log(butons);

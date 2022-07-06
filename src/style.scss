@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&family=Montserrat&display=swap');
-
-// /* $padding-big: 42px;
-// $padding-medium: 32px;
-// $padding: 24px;
-// $padding-small: 12px; */
+@import url('./burger.css');
 
 :root {
   --bg-dark: #0E1734;
@@ -24,41 +20,33 @@
   margin: 0;
   padding: 0;
 }
-
 html {
 	scroll-behavior: smooth;
 }
-
 ul {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-
 li{
   list-style: none;
 }
-
 a {
 	color: #000;
 	text-decoration: none;
 }
-
 a:hover {
 	color: var(--orange);
   transition: all 0.3s linear;
 }
-
 button {
 	cursor: pointer;
 }
-
 .btn:hover {
   background-color: var(--orange);
   color: var(--bg-dark);
   transition: all 0.3s linear;
 }
-
 h1, h2, h3, h4, h5, h6, p, span {
   font-family: 'Montserrat', sans-serif;
   color: var(--bg-dark);
@@ -73,7 +61,6 @@ h1, h2, h3, h4, h5, h6, p, span {
 	align-items: center;
 	margin: 0 auto;
 }
-
 .section {
 	display: flex;
 	flex-direction: column;
@@ -82,13 +69,11 @@ h1, h2, h3, h4, h5, h6, p, span {
 	justify-content: center;
 	padding: 80px 120px;	
 }
-
 .container  {
   display: flex;
 	width: 100%;
   align-items: center;
 }
-
 .container_vert {
   flex-direction: column;
 }
@@ -102,7 +87,6 @@ h1, h2, h3, h4, h5, h6, p, span {
   color: var(--bg-dark);
   line-height: 150%;
 }
-
 .section__title {
   font-weight: 600;
   font-size: 36px;
@@ -110,7 +94,6 @@ h1, h2, h3, h4, h5, h6, p, span {
   color: var(--bg-dark);
   line-height: 150%;
 }
-
 .section__p {
   font-weight: 400;
   font-size: 16px;
@@ -130,11 +113,12 @@ h1, h2, h3, h4, h5, h6, p, span {
 .header {
   width: 100%;
   justify-content: center;
+  padding: 0 120px;
   .header-container {
     display: flex;
     height: 120px;
     justify-content: space-between;
-    padding: 0 120px;
+    flex-direction: row;
     .header__nav {
       display: flex;
       .header__nav-link {
@@ -148,35 +132,28 @@ h1, h2, h3, h4, h5, h6, p, span {
       .header__nav-link:last-child {
         margin-right: 0;
       }
-    }
-    
+    } 
   }
 }
-
 
 .section__item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  // width: 100%;
 }
-
 .section__item_horiz {
   flex-direction: row;
 }
-
 .section__item_vert {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
-
 .step-container {
   display: flex;
   justify-content: space-between;
 }
-
 .first__img-container {
   margin: 0 0 80px 24px;
 }
@@ -184,13 +161,10 @@ h1, h2, h3, h4, h5, h6, p, span {
   margin: 80px 0 0 24px;
 }
 .first__p {
-  // font-size: 18px;
   line-height: 165%;
   letter-spacing: 0.5px;
   max-width: 485px;
 }
-
-
 .btn {
   font-size: 16px;
   padding: 17px 32px;
@@ -203,7 +177,9 @@ h1, h2, h3, h4, h5, h6, p, span {
   border-radius: 4px;
   margin-right: 10px;
 }
-
+.btn_get {
+  margin: 0;
+}
 .btn_dark {
   background-color: var(--bg-dark);
   color: white;
@@ -211,43 +187,31 @@ h1, h2, h3, h4, h5, h6, p, span {
 .btn_left {
   margin-right: 0px;
 }
-
-.second__item {
-  // margin-bottom: 4rem;
-}
-
 .second__item_last {
   margin-bottom: 0;
 }
-
 .second__img-container, .second__img-container {
   margin-right: 126px;
   max-width: 384px;
 }
-
 .second__img_left {
   margin-left: 126px;
   margin-right: 0;
 }
-
 .second__p {
   margin-bottom: var(--padding-small);
 }
-
 .second__button {
   margin-bottom: var(--padding-medium);
 }
-
 .section__item_center {
   align-items: center;
   margin-bottom: var(--padding-small);
 }
-
 .btn_withArrow {
   position: relative;
   padding-left: 0;
 }
-
 .btn_withArrow::after {
   content: '';
   background: url(./images/arrow_right.svg);
@@ -258,7 +222,6 @@ h1, h2, h3, h4, h5, h6, p, span {
   top: calc( 50% - 10px );
   right: 5px;
 }
-
 .item__card {
   display: flex;
   flex-direction: column;
@@ -273,11 +236,9 @@ h1, h2, h3, h4, h5, h6, p, span {
     margin-bottom: var(--padding-medium);
   }
 }
-
 .section__button-container {
   display: flex;
 }
-
 .item__step {
   padding: 22px 20px;
   margin: 15px;
@@ -292,65 +253,52 @@ h1, h2, h3, h4, h5, h6, p, span {
   .step__icon_activ {
     background: url('./images/arrow_up.svg');
   }
-
 }
+
 .title_small {
   font-size: 24px;
 }
-
 .step-container_hide {
   display: flex;
   transition: max-height 0.5s linear;
   overflow: hidden;
   max-height: 0px;
 }
-
 .step-container_hide.step-container_hide_activ {
   max-height: 120px;
   transition: max-height 0.5s linear;
 }
-
 .bg-img {
   width: 100%;
   height: auto;
 }
-
 .fourth {
   justify-content: space-between;
   align-items: flex-start;
 }
-
 .fourth__item {
   flex-basis: 55%;
 }
-
 .fourth__item_first {
   flex-basis: 35%;
 }
-
 .card_p {
   max-width: 360px;
 }
-
 .section__p {
   margin-bottom: var(--padding-small);
-  // max-width: 560px;
 }
-
 .first__item {
   flex-basis: 50%;
 }
-
 .first__item_pad {
   margin-bottom: 50px;
 }
-
 .section__item_start {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
 }
-
 .footer {
   width: 100%;
   justify-content: center;
@@ -359,7 +307,6 @@ h1, h2, h3, h4, h5, h6, p, span {
   font-family: 'Montserrat', sans-serif;
   .footer-container {
     display: flex;
-    // height: 120px;
     justify-content: space-between;
     padding: 120px;
     .footer__menu {
@@ -410,16 +357,22 @@ h1, h2, h3, h4, h5, h6, p, span {
 }
 
 @media (max-width: 1064px) {
+  .header {
+    padding: 1rem 2rem;
+    .header-container {
+      height: auto;
+    }
+  }
   .container {
     flex-direction: column;
   }
   .section {
-    padding: 3rem 4rem;	
+    padding: 3rem 2rem;	
   }
   .section__title_big {
     font-size: 30px;
   }
-  .section__title {
+  .section__title, .card__title {
     font-size: 26px;
   }
   .section__item_start, .section__item_vert {
@@ -437,12 +390,13 @@ h1, h2, h3, h4, h5, h6, p, span {
   .second__item {
     align-items: flex-start;
   }
-
   .btn {
     padding: 10px 22px;
     margin-right: 10px;
   }
-
+  .btn_get {
+    margin: 0;
+  }
   .item__step {
     padding: 22px 20px;
   }
@@ -450,6 +404,7 @@ h1, h2, h3, h4, h5, h6, p, span {
     .footer-container {
       flex-direction: column;
       align-items: flex-start;
+      padding: 1rem 2rem;
       .footer__menu {
         flex-wrap: wrap;
         .menu__column {
@@ -461,4 +416,20 @@ h1, h2, h3, h4, h5, h6, p, span {
     }
   }
   
+}
+@media (max-width: 500px) {
+  .btn_get {
+    display: none;
+  }
+  .section__title_big {
+    font-size: 36px;
+  }
+  .section__title {
+    font-size: 24px;
+  }
+  .item__card {
+    .card__title {
+      font-size: 24px;
+    }
+  }
 }
