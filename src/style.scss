@@ -285,6 +285,28 @@ h1, h2, h3, h4, h5, h6, p, span {
 .card_p {
   max-width: 360px;
 }
+
+.fifth {
+  display: flex;
+  flex-direction: column;
+  .fifth__slider {
+    width: 80%;
+    .review {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .review__text {
+        text-align: center;
+        margin: var(--padding-medium) auto;
+      }
+      .review__name {
+        margin-bottom: var(--padding-small);
+      }
+      // max-width: 580px;
+    }
+  }
+}
+
 .section__p {
   margin-bottom: var(--padding-small);
 }
