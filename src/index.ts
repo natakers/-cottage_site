@@ -1,10 +1,21 @@
 import './style.scss';
 import './burger';
-import './slick'
+import './slick/slick.js';
+const $ = require('jquery');
+
+$(document).ready(function(){
+  $('.fifth__slider').slick({
+    responsive: true,
+    dots: true,
+    infinite: true,
+    speed: 300,
+    slidesToShow: 1,
+    adaptiveHeight: true,
+  })
+});
+
 
 const butons = document.querySelectorAll('.step__icon');
-console.log(butons);
-
 butons.forEach(item => {
   item.addEventListener('click', () => {
     item.classList.toggle('step__icon_activ');

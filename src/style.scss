@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&family=Montserrat&display=swap');
 @import url('./burger.css');
+@import url('./slick/slick.css');
+@import url('./slick/slick-theme.css');
 
 :root {
   --bg-dark: #0E1734;
@@ -105,7 +107,7 @@ h1, h2, h3, h4, h5, h6, p, span {
 
 /*-----------Containers---------------*/
 
-.main, .footer, header {
+.main, .header {
   max-width: 1440px;
   display: flex;
   flex-direction: column;
@@ -214,7 +216,7 @@ h1, h2, h3, h4, h5, h6, p, span {
 }
 .btn_withArrow::after {
   content: '';
-  background: url(./images/arrow_right.svg);
+  background: url('./assets/images/arrow_right.svg');
   background-size: 20px 20px;
   width: 20px;
   height: 20px;
@@ -244,14 +246,14 @@ h1, h2, h3, h4, h5, h6, p, span {
   margin: 15px;
   box-shadow: 0 0 25px var(--ligth-ligth-pirple);
   .step__icon {
-    background: url('./images/arrow_down.svg');
+    background: url('./assets/images/arrow_down.svg');
     min-width: 40px;
     height: 40px;
     cursor: pointer;
     transition: all 0.3s linear;
   }
   .step__icon_activ {
-    background: url('./images/arrow_up.svg');
+    background: url('./assets/images/arrow_up.svg');
   }
 }
 
@@ -322,6 +324,9 @@ h1, h2, h3, h4, h5, h6, p, span {
   justify-content: space-between;
 }
 .footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   justify-content: center;
   background-color: var(--bg-dark);
@@ -331,6 +336,7 @@ h1, h2, h3, h4, h5, h6, p, span {
     display: flex;
     justify-content: space-between;
     padding: 120px;
+    max-width: 1440px;
     .footer__menu {
       display: flex;
       .menu__column {
@@ -413,7 +419,7 @@ h1, h2, h3, h4, h5, h6, p, span {
     align-items: flex-start;
   }
   .btn {
-    padding: 10px 22px;
+    // padding: 10px 22px;
     margin-right: 10px;
   }
   .btn_get {

@@ -1,3 +1,5 @@
+// import './slick/slick';
+
 $(document).ready(function(){
   $('.fifth__slider').slick({
     // slidesToShow: 2,

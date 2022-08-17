@@ -1,132 +1,118 @@
-const fs = require('fs');
+// Generated using webpack-cli https://github.com/webpack/webpack-cli
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const CopyPlugin = require('copy-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
-const htmlFile = /^([-_\d\w]+).html$/i;
-const srcPath = path.resolve(__dirname, 'src');
+const isProduction = process.env.NODE_ENV == 'production';
 
-const devServer = (isDev) => !isDev ? {} : {
+const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
+
+const config = {
+  entry: './src/index.ts',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
+  },
   devServer: {
     open: true,
-    port: 'auto',
-    static: {
-      directory: srcPath,
-      watch: true,
-    },
+    host: 'localhost',
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+    }),
+    new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [
+        { from: "src/assets/images", to: "assets/images" },
+      ],
+    }),
+    // new webpack.ProvidePlugin({
+    //   $: 'jquery',
+    //   // jQuery: 'jquery',
+    // }),
+  ],
+  
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/i,
+        loader: 'ts-loader',
+        exclude: ['/node_modules/'],
+      },
+      {
+        test: /\.css$/i,
+        use: [stylesHandler, 'css-loader'],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [stylesHandler, 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        type: 'asset',
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/[name][ext]',
+        },
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          {
+            loader: ImageMinimizerPlugin.loader,
+            options: {
+              minimizer: {
+                implementation: ImageMinimizerPlugin.imageminMinify,
+                options: {
+                  plugins: ['imagemin-gifsicle', 'imagemin-mozjpeg', 'imagemin-pngquant', 'imagemin-svgo'],
+                },
+              },
+            },
+          },
+        ],
+      },
+
+      // Add your rules for custom modules here
+      // Learn more about loaders from https://webpack.js.org/loaders/
+    ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
+  optimization: {
+    minimizer: [
+      // Extend default minimizer, i.e. `terser-webpack-plugin` for JS
+      '...',
+      // We recommend using only for the "production" mode
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminMinify,
+          options: {
+            plugins: ['imagemin-gifsicle', 'imagemin-mozjpeg', 'imagemin-pngquant', 'imagemin-svgo'],
+          },
+        },
+        // Disable `loader`
+        loader: false,
+      }),
+    ],
   },
 };
 
-const getRelative = (absolutePath) => path.relative(srcPath, absolutePath);
-const makePath = (relativePath) => './' + relativePath.replace(/\\+/g, '/');
+module.exports = () => {
+  if (isProduction) {
+    config.mode = 'production';
 
-const getPages = (dir, n) => {
-  const dirContent = fs.readdirSync(dir);
-  const pages = dirContent
-    .filter(f => htmlFile.test(f))
-    .reduce((res, f, i) => {
-      const name = path.basename(f, path.extname(f));
-      res.push({
-        name: `p${n += i}`,
-        dir: getRelative(dir),
-        html: makePath(getRelative(path.join(dir, f))),
-        script: dirContent.find(f => new RegExp(`^${name}\.[tj]s$`, 'i').test(f)),
-        style: dirContent.find(f => new RegExp(`^${name}\.s(c|a)ss$`, 'i').test(f)),
-      });
-      return res;
-    }, [])
-    .concat(dirContent
-      .filter(f => fs.lstatSync(path.resolve(dir, f)).isDirectory())
-      .reduce((res, f) => [...res, ...getPages(path.resolve(dir, f), n + 1)], [])
-    );
-
-  return pages;
+    config.plugins.push(new MiniCssExtractPlugin());
+  } else {
+    config.mode = 'development';
+  }
+  return config;
 };
-
-const getEntryPoints = (pages) => pages.reduce((entry, {name, dir, script, style}) => Object.assign(entry,
-  script ? { [name]: makePath(path.join(dir, script)) } : {},
-  style ? { [`${name}-styles`]: makePath(path.join(dir, style)) } : {},
-), {});
-
-const getHtmlPlugins = (pages) => pages.map(({html, name, script, style}) => new HtmlWebpackPlugin({
-  template: html,
-  filename: html,
-  chunks: [ script ? name : null, style ? `${name}-styles` : null ].filter(c => !!c),
-}));
-
-module.exports = ({ development }) => {
-  const pages = getPages(srcPath, 1);
-  return {
-    mode: development ? 'development' : 'production',
-    devtool: development ? 'inline-source-map' : false,
-    entry: getEntryPoints(pages),
-    context: srcPath,
-    output: {
-      filename: 'js/[name].[contenthash].js',
-      path: path.resolve(__dirname, 'dist'),
-      assetModuleFilename: '[file]',
-    },
-    target: ['web', 'es6'],
-    module: {
-      rules: [
-        {
-          test: /\.[tj]s$/,
-          use: 'ts-loader',
-          exclude: /node_modules/,
-        },
-        {
-          test: /\.(?:ico|gif|png|jpg|jpeg|svg|webp)$/i,
-          type: 'asset/resource',
-        },
-        {
-          test: /\.(?:mp3|wav|ogg|mp4)$/i,
-          type: 'asset/resource',
-        },
-        {
-          test: /\.(woff(2)?|eot|ttf|otf)$/i,
-          type: 'asset/resource',
-        },
-        // {
-        //   test: /\.css$/i,
-        //   use: [{loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' }}, 'css-loader'],
-        // },
-        {
-          test: /\.(s*)css$/i,
-          use: [{loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' }}, 'css-loader', 'sass-loader']
-        }
-      ],
-    },
-    plugins: [
-      new MiniCssExtractPlugin({ filename: 'css/[name].[contenthash].css' }),
-      ...getHtmlPlugins(pages),
-      new CopyPlugin({
-        patterns: [
-          {
-            from: '**/*',
-            context: srcPath,
-            globOptions: {
-              ignore: [
-                '**/*.js',
-                '**/*.ts',
-                '**/*.scss',
-                '**/*.sass',
-                '**/*.html',
-              ],
-            },
-            noErrorOnMissing: true,
-            force: true,
-          }
-        ],
-      }),
-      new CleanWebpackPlugin(),
-      new RemoveEmptyScriptsPlugin(),
-    ],
-    resolve: {
-      extensions: ['.js', '.ts'],
-    },
-    ...devServer(development)
-  };
-}
